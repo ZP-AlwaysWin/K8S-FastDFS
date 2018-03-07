@@ -1,0 +1,62 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: fastdfs-tracker
+spec:
+  serviceName: fastdfs-tracker
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: fastdfs-tracker
+    spec:
+      terminationGracePeriodSeconds: 10
+      nodeSelector:
+        fastdfs-tracker: tracker
+      containers:
+      - name: fastdfs-tracker
+        image: h3crd-wlan1.chinacloudapp.cn:5000/fastdfs_nginx:v1
+        command: ["/bin/bash","/tmp/fdfs_config/start.sh","tracker"]
+        ports:
+          - name: tracker
+            protocol: TCP
+            containerPort: 22133
+          - name: tracker-http
+            protocol: TCP
+            containerPort: 8080
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "22133"
+        - name: GROUP_NAME
+          value:
+        - name: TRACKER_SERVER
+          value:
+        - name: TRACKER_NUM
+          value:
+        - name: STORAGE_NGINX_PORT
+          value:
+        - name: TRACKER_SERVER_SLAVE
+          value:
+        - name: GROUP_NUM
+          value:
+        volumeMounts:
+        - name: fdfs-config
+          mountPath: /tmp/fdfs_config
+        - name: tracker-data
+          mountPath: /var/fdfs
+      volumes:
+      - name: fdfs-config
+        configMap:
+          name: fdfs-config
+      hostNetwork: true
+  volumeClaimTemplates:
+  - metadata:
+      name: tracker-data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "fast"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: &{FastDFS_Data}Gi

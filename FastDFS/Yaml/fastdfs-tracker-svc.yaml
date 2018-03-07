@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fastdfs-tracker
+  labels:
+    app: fastdfs-tracker
+spec:
+  type: NodePort
+  ports:
+   - name: http
+     protocol: TCP
+     port: 22133
+     targetPort: 22133
+     nodePort: 22122
+  selector:
+    app: fastdfs-tracker
