@@ -1,6 +1,6 @@
-Docker化FastDFS组件使用说明：
+## Docker化FastDFS组件使用说明：
 
-一.配置文件详解：
+### 一.配置文件详解：
 
 一期中配置文件json的标准格式如下：
 {
@@ -26,7 +26,7 @@ Docker化FastDFS组件使用说明：
 5. FASTDFS_DATA:
 	每个FastDFS组下的Srorage的挂载磁盘的大小，目前其填写类型必须是大于0小于等于5的int类型
 	
-二.使用说明：
+### 二.使用说明：
 
 1.安装FastDFS集群，按照要求修改FastDFS文件夹下的FastDFS.json配置文件，然后运行FastDFS文件夹下的ChangeYaml.py脚本；
 	python ChangeYaml.py
@@ -42,7 +42,7 @@ Docker化FastDFS组件使用说明：
     "FASTDFS_DATA": 5
 }
 
-注意：
+** 注意：**
 扩充FastDFS节点只允许修改GROUP_NUM和FASTDFS_DATA的value值
 (1). FASTDFS_DATA:
 	每个FastDFS组下的Srorage的挂载磁盘的大小，目前其填写类型必须是大于0小于等于5的int类型
