@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: &{fastdfs-storage}
+spec:
+  serviceName: &{fastdfs-storage}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: &{fastdfs-storage}
+  template:
+    metadata:
+      labels:
+        app: &{fastdfs-storage}
+    spec:
+      nodeSelector:
+        fastdfs: &{moons}
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: &{fastdfs-storage}
+        image: h3crd-wlan1.chinacloudapp.cn:5000/fastdfs_nginx:v1
+        command: ["/bin/bash","/fdfs/fdfs_config/start.sh","storage"]
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - /fdfs/fdfs_config/probe-storage.sh
+          initialDelaySeconds: 600
+          timeoutSeconds: 5
+          periodSeconds: 300
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TRACKER_SERVER
+          value: &{TRACKER_SERVER}
+        - name: GROUP_NAME
+          value: &{GROUP_NAME}
+        - name: PORT
+          value: &{PORT}
+        - name: TRACKER_NUM
+          value: &{TRACKER_NUM}
+        - name: STORAGE_NGINX_PORT
+          value: &{STORAGE_NGINX_PORT}
+        - name: TRACKER_SERVER_SLAVE
+          value: &{TRACKER_SERVER_SLAVE}
+        - name: GROUP_NUM
+          value:
+        volumeMounts:
+        - name: fdfs-config
+          mountPath: /fdfs/fdfs_config
+        - name: storage0-data
+          mountPath: /var/fdfs
+        - name: host-time
+          mountPath: /etc/localtime
+      volumes:
+      - name: fdfs-config
+        configMap:
+          name: fdfs-config
+      - name: host-time
+        hostPath:
+          path: /etc/localtime
+      hostNetwork: true
+  volumeClaimTemplates:
+  - metadata:
+      name: storage0-data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "fast"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: &{FastDFS_Data}Gi

@@ -1,0 +1,8 @@
+{
+    "node_hosts": ["172.20.0.115","172.20.0.124","172.20.0.132"],
+    "Nginx_Ip": "172.20.0.132",
+    "TRACKER_SERVER_NUM": 2,
+    "GROUP_NUM": 2,
+    "STORAGE_NUM": 3,
+    "FASTDFS_DATA": 10
+}

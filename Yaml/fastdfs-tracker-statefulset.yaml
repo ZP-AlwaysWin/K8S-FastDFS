@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: fastdfs-tracker
+spec:
+  serviceName: fastdfs-tracker
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastdfs-tracker
+  template:
+    metadata:
+      labels:
+        app: fastdfs-tracker
+    spec:
+      terminationGracePeriodSeconds: 10
+      nodeSelector:
+        fastdfs-tracker: tracker
+      containers:
+      - name: fastdfs-tracker
+        image: h3crd-wlan1.chinacloudapp.cn:5000/fastdfs_nginx:v1
+        command: ["/bin/bash","/fdfs/fdfs_config/start.sh","tracker"]
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - /fdfs/fdfs_config/probe-tracker.sh
+          initialDelaySeconds: 600
+          timeoutSeconds: 5
+          periodSeconds: 300
+        ports:
+          - name: tracker
+            protocol: TCP
+            containerPort: 22133
+          - name: tracker-http
+            protocol: TCP
+            containerPort: 8080
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "22133"
+        - name: GROUP_NAME
+          value:
+        - name: TRACKER_SERVER
+          value:
+        - name: TRACKER_NUM
+          value:
+        - name: STORAGE_NGINX_PORT
+          value:
+        - name: TRACKER_SERVER_SLAVE
+          value:
+        - name: GROUP_NUM
+          value:
+        volumeMounts:
+        - name: fdfs-config
+          mountPath: /fdfs/fdfs_config
+        - name: tracker-data
+          mountPath: /var/fdfs
+        - name: host-time
+          mountPath: /etc/localtime
+      volumes:
+      - name: fdfs-config
+        configMap:
+          name: fdfs-config
+      - name: host-time
+        hostPath:
+          path: /etc/localtime
+      hostNetwork: true
+  volumeClaimTemplates:
+  - metadata:
+      name: tracker-data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "fast"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
