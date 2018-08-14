@@ -49,8 +49,10 @@
 ```
 **注意:**
 扩充FastDFS节点只允许修改GROUP_NUM和FASTDFS_DATA的value值
+
 (1). FASTDFS_DATA:
 	每个FastDFS组下的Srorage的挂载磁盘的大小，目前其填写类型必须是大于0小于等于5的int类型
+
 (2). GROUP_NUM：
 	FastDFS组的个数，目前一期中，只允许填写1、2、3组，且其填写类型必须是大于目前现有组数的int类型。	
 	
@@ -59,7 +61,7 @@
 
 4.扩充FastDFS集群之后，检测集群是否运行正常，运行FastDFS文件夹下的check_fastdfs.py脚本；
 	`python check_fastdfs.py`
-
+	
 5. 删除FastDFS集群，运行FastDFS文件夹下的DelClu.py脚本
 	`python DelClu.py`
 	
