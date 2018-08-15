@@ -36,7 +36,7 @@
 
 2.安装FastDFS集群之后，检测集群是否运行正常，运行FastDFS文件夹下的check_fastdfs.py脚本；
 	
-	`python check_fastdfs.py`
+	python check_fastdfs.py
 
 3.扩充FastDFS节点，修改FastDFS/json下的Expand_FastDFS.json扩充节点的配置文件。
 
@@ -60,13 +60,13 @@
 	
 按要求修改配置文件结束后，运行FastDFS文件夹下的Expand_Node.py脚本
 		
-		`python Expand_Node.py`
+		python Expand_Node.py
 
 4.扩充FastDFS集群之后，检测集群是否运行正常，运行FastDFS文件夹下的check_fastdfs.py脚本；
 	
-		`python check_fastdfs.py`
+		python check_fastdfs.py
 	
 5. 删除FastDFS集群，运行FastDFS文件夹下的DelClu.py脚本
 	
-		`python DelClu.py`
+		python DelClu.py
 	
