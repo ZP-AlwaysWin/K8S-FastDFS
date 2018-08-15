@@ -32,7 +32,7 @@
 
 1.安装FastDFS集群，按照要求修改FastDFS文件夹下的FastDFS.json配置文件，然后运行FastDFS文件夹下的ChangeYaml.py脚本；
 	
-	`python ChangeYaml.py`
+	python ChangeYaml.py
 
 2.安装FastDFS集群之后，检测集群是否运行正常，运行FastDFS文件夹下的check_fastdfs.py脚本；
 	
