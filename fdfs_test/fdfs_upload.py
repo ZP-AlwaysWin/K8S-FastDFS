@@ -4,7 +4,7 @@ import time
  
 client_file='client.conf'
 test_file='client.conf'
-download_file='test2.txt'
+download_file='client.conf'
  
 try:
     client = Fdfs_client(client_file)
