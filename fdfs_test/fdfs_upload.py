@@ -3,7 +3,7 @@ from fdfs_client.client import *
 import time
  
 client_file='client.conf'
-test_file='test.txt'
+test_file='client.conf'
 download_file='test2.txt'
  
 try:
