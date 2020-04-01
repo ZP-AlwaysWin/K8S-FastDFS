@@ -18,7 +18,7 @@ spec:
         fastdfs-tracker: tracker
       containers:
       - name: fastdfs-tracker
-        image: h3crd-wlan1.chinacloudapp.cn:5000/fastdfs_nginx:v1
+        image: luhuiguo/fastdfs
         command: ["/bin/bash","/fdfs/fdfs_config/start.sh","tracker"]
         livenessProbe:
           exec:
